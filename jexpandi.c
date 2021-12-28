@@ -36,13 +36,6 @@
 
 #include "jexpand.h"
 
-/*** types and globals ***/
-char *jexpandi_rev = "$Id: jexpandi.c,v 3.1 2021/12/27 21:53:39 jmccue Exp $";
-
-/* prototypes */
-void clear_work(struct s_work *, char *);
-char get_switch_char(char, char *);
-
 /*
  * init_finfo() -- initialize out file structure
  */

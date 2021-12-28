@@ -43,9 +43,6 @@
 #include <j_lib2m.h>
 #include "jexpand.h"
 
-/*** types and globals ***/
-char *jexpanda_rev = "$Id: jexpanda.c,v 3.1 2021/12/27 21:53:39 jmccue Exp $";
-
 /*
  * open_out() -- save the file name and check status
  */

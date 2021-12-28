@@ -28,12 +28,6 @@
 
 #include "jexpand.h"
 
-char *jexpandh_rev = "$Id: jexpandh.c,v 3.1 2021/12/27 21:53:39 jmccue Exp $";
-extern char *rcs_filel;
-extern char *jexpand_rev;
-extern char *jexpanda_rev;
-extern char *jexpandi_rev;
-
 #define MSG_HELP_11 "Expand TABS to spaces, creating out file"
 
 /*
@@ -44,18 +38,9 @@ int show_rev(struct s_work *w)
 {
 
   fprintf(w->out.fp,"%s %s:\n", w->prog_name, LIT_REV);
-  fprintf(w->out.fp,"\t%s\n", JEXPAND_H_REV);
-  fprintf(w->out.fp,"\t%s\n", jexpand_rev);
-  fprintf(w->out.fp,"\t%s\n", jexpanda_rev);
-  fprintf(w->out.fp,"\t%s\n", jexpandh_rev);
-  fprintf(w->out.fp,"\t%s\n", jexpandi_rev);
 
 #ifdef J_LIB2_H
   fprintf(w->out.fp, "\t%s %s\n", LIT_INFO_02, j2_get_build());
-#endif
-
-#ifdef COMMON_H
-  fprintf(w->out.fp, "\t%s\n", COMMON_H);
 #endif
 
 #ifdef OSTYPE

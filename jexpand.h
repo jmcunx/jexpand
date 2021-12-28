@@ -14,14 +14,12 @@
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
-#ifndef JEXPAND_H_REV
+#ifndef JEXPAND_H
 
-#define JEXPAND_H_REV "$Id: jexpand.h,v 3.1 2021/12/27 21:57:07 jmccue Exp $"
+#define JEXPAND_H "INCLUDED"
 
 #define PROG_NAME        "jexpand"
 #define EXPAND_TAB_DEFAULT 8
-
-/*** Structures ***/
 
 struct s_file_info
 {
@@ -53,4 +51,4 @@ int  show_brief_help(struct s_work *);
 char *get_progname(char *, char *);
 void close_out(struct s_file_info *);
 
-#endif /* JEXPAND_H_REV */
+#endif /* JEXPAND_H */

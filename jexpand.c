@@ -37,11 +37,13 @@
 #include <io.h>
 #endif
 
+#ifdef OpenBSD
+#include <err.h>
+#endif
+
 #include <j_lib2.h>
 #include <j_lib2m.h>
 #include "jexpand.h"
-
-char *jexpand_rev="$Id: jexpand.c,v 3.1 2021/12/27 21:53:39 jmccue Exp $";
 
 /*
  * close_out() -- close output
@@ -173,7 +175,7 @@ void process_a_file(struct s_work *w, char *fname, struct s_file_info *f)
   if ( ! open_in(&(f->fp), f->fname, w->err.fp) )
     return;
 
-  while (getline(&buf, &buf_size, f->fp) > -1)
+  while (j2_getline(&buf, &buf_size, f->fp) > -1)
     {
       (f->reads)++;
       if (err_expand == TRUE)
@@ -214,13 +216,18 @@ void process_one_file(struct s_work *w, char *fname)
 
 } /* process_one_file() */
 
-/******************************************************************************
-* main()
-******************************************************************************/
+/*
+ * main()
+ */
 int main(int argc, char **argv)
 {
   struct s_work w;
   int i;
+
+#ifdef OpenBSD
+  if(pledge("stdio rpath wpath cpath",NULL) == -1)
+    err(1,"pledge\n");
+#endif
 
   init(&w, argv, argc);
 
