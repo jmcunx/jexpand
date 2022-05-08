@@ -155,34 +155,33 @@ void eoj(struct s_work *w)
   close_out(&(w->err));
   close_out(&(w->out));
 
+  if (w->prog_name != (char *) NULL)
+    free(w->prog_name);
+
 } /* eoj() */
 
 /*
  * process_a_file()
  */
-void process_a_file(struct s_work *w, char *fname, struct s_file_info *f)
+void process_a_file(struct s_work *w, char *fname, struct s_file_info *f, char **buf, size_t *buf_size)
 {
-  static char *buf = (char *) NULL;
-  static size_t buf_size = 0;
   char *expanded = (char *) NULL;
   size_t out_size = 0;
   int err_expand = TRUE;
 
-  expanded = (char *) NULL;
-  buf      = (char *) NULL;
   f->fname = fname;
 
   if ( ! open_in(&(f->fp), f->fname, w->err.fp) )
     return;
 
-  while (j2_getline(&buf, &buf_size, f->fp) > -1)
+  while (j2_getline(buf, buf_size, f->fp) > -1)
     {
       (f->reads)++;
       if (err_expand == TRUE)
         {
-          f->bytes += (strlen(buf));
-          j2_bye_nl(buf);
-          err_expand = j2_expand_tab(w->tab_size, &out_size, &expanded, buf);
+          f->bytes += (strlen((*buf)));
+          j2_bye_nl((*buf));
+          err_expand = j2_expand_tab(w->tab_size, &out_size, &expanded, (*buf));
           fprintf(w->out.fp, "%s\n", expanded);
           w->out.bytes += (strlen(expanded) + 1);  /* +1 for new line */
           (w->out.writes)++;
@@ -203,13 +202,13 @@ void process_a_file(struct s_work *w, char *fname, struct s_file_info *f)
 /*
  * process_one_file()
  */
-void process_one_file(struct s_work *w, char *fname)
+void process_one_file(struct s_work *w, char *fname, char **buf, size_t *buf_size)
 {
   struct s_file_info in;
 
   init_finfo(&in);
 
-  process_a_file(w, fname, &in);
+  process_a_file(w, fname, &in, buf, buf_size);
 
   if (w->verbose == (int) TRUE)
     show_stats(w->err.fp, &in);
@@ -223,6 +222,8 @@ int main(int argc, char **argv)
 {
   struct s_work w;
   int i;
+  char *buf = (char *) NULL;
+  size_t buf_size = 0;
 
 #ifdef OpenBSD
   if(pledge("stdio rpath wpath cpath",NULL) == -1)
@@ -233,11 +234,13 @@ int main(int argc, char **argv)
 
   /*** process all files ***/
   for (i = optind; i < argc; i++)
-    process_one_file(&w, argv[i]);
+    process_one_file(&w, argv[i], &buf, &buf_size);
   if (i == optind)
-    process_one_file(&w, FILE_NAME_STDIN);
+    process_one_file(&w, FILE_NAME_STDIN, &buf, &buf_size);
 
   eoj(&w);
+  if (buf != (char *) NULL)
+    free(buf);
   exit(EXIT_SUCCESS);
 
 }  /* main() */
