@@ -6,7 +6,7 @@ do not have expand(1).
 If expand(1) exists on your system, you should use that instead.
 It will be much faster and probably work better.
 
-This requires [j\_lib2](https://github.com/jmcunx/j_lib2) to build.
+[j\_lib2](https://github.com/jmcunx/j_lib2) is an **optional** dependency.
 
 [GNU automake](https://en.wikipedia.org/wiki/Automake)
 only confuses me, but this seems to be good enough for me.
